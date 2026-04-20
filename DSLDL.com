@@ -18,7 +18,7 @@
 
 2. JAVASCRIPT /
 // C'est ici que tu dois coller l'URL de ton Webhook Discord entre les guillemets !
-const urlWebhookDiscord = "COLLE_TON_URL_ICI";
+const urlWebhookDiscord = "https://discord.com/api/webhooks/1495918218966208584/8F3PBTtdXMWbZT65OCtgvr4QPXc5I_k-ARe1zcWfBdxbpIpsvp89Sr8sAgE-cEMKCR49";
 
 // On récupère les éléments de la page HTML
 const boutonEnvoi = document.getElementById('bouton-envoi');
