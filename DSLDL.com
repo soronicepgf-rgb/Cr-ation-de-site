@@ -1,85 +1,119 @@
 1. HTML /
-<div style="background-color: #2d2d2d; padding: 30px; border-radius: 10px; text-align: center; margin-top: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.3);">
-    <h2 style="color: #ffffff; font-family: Arial, sans-serif;">Envoyer un fichier sur Discord</h2>
-    
-    <p style="color: #bbbbbb; font-family: Arial, sans-serif;">Sélectionne un fichier (image, vidéo, audio, python...) depuis ton PC :</p>
-    
-    <input type="file" id="selecteur-fichier" style="margin: 20px 0; color: white; background: #1e1e1e; padding: 10px; border-radius: 5px; cursor: pointer; width: 80%;">
-    
-    <br>
-    
-    <button id="bouton-envoi" style="padding: 15px 30px; background-color: #5865F2; color: white; font-weight: bold; font-size: 16px; border: none; border-radius: 8px; cursor: pointer; transition: background-color 0.3s;">
-        Envoyer vers Discord
-    </button>
-
-    <p id="message-statut" style="margin-top: 20px; font-weight: bold; font-family: Arial, sans-serif; font-size: 16px;"></p>
-</div>
-.
-
-2. JAVASCRIPT /
-// C'est ici que tu dois coller l'URL de ton Webhook Discord entre les guillemets !
-const urlWebhookDiscord = "https://discord.com/api/webhooks/1495918218966208584/8F3PBTtdXMWbZT65OCtgvr4QPXc5I_k-ARe1zcWfBdxbpIpsvp89Sr8sAgE-cEMKCR49";
-
-// On récupère les éléments de la page HTML
-const boutonEnvoi = document.getElementById('bouton-envoi');
-const selecteurFichier = document.getElementById('selecteur-fichier');
-const messageStatut = document.getElementById('message-statut');
-
-// Quand tu cliques sur le bouton, cette fonction s'active
-boutonEnvoi.addEventListener('click', async function() {
-    
-    // On vérifie si tu as bien sélectionné un fichier
-    if (selecteurFichier.files.length === 0) {
-        messageStatut.innerText = "⚠️ Oups ! Tu as oublié de sélectionner un fichier.";
-        messageStatut.style.color = "#ffa500"; // Couleur orange
-        return; // On arrête tout si pas de fichier
-    }
-
-    // On vérifie si l'URL Discord a bien été remplacée
-    if (urlWebhookDiscord === "COLLE_TON_URL_ICI" || urlWebhookDiscord === "") {
-        messageStatut.innerText = "⚠️ Attention ! Tu n'as pas mis ton lien Discord dans le code GitHub.";
-        messageStatut.style.color = "#ffa500";
-        return;
-    }
-
-    // On récupère le fichier exact que tu as choisi
-    const fichierAEnvoyer = selecteurFichier.files[0];
-    
-    // On prépare le paquet (le formulaire de données) pour l'envoyer à Discord
-    const paquetDonnees = new FormData();
-    paquetDonnees.append('file', fichierAEnvoyer);
-    
-    // On peut même ajouter un petit message qui accompagnera le fichier sur Discord
-    paquetDonnees.append('content', '🚀 **Nouveau fichier reçu depuis le site DSLDL !**');
-
-    // On met à jour le texte pour te dire que ça travaille
-    messageStatut.innerText = "⏳ Envoi en cours vers ton serveur Discord, patiente un instant...";
-    messageStatut.style.color = "#3498db"; // Couleur bleue
-
-    try {
-        // C'est ici que la magie opère : on expédie le paquet vers Discord
-        const reponse = await fetch(urlWebhookDiscord, {
-            method: 'POST',
-            body: paquetDonnees
-        });
-
-        // On vérifie si Discord a bien accepté le fichier
-        if (reponse.ok) {
-            messageStatut.innerText = "✅ Succès total ! Le fichier est arrivé sur Discord.";
-            messageStatut.style.color = "#2ecc71"; // Couleur verte
-            
-            // On vide la sélection pour que tu puisses en envoyer un autre
-            selecteurFichier.value = ""; 
-        } else {
-            // Si Discord refuse, on affiche l'erreur
-            messageStatut.innerText = "❌ Une erreur s'est produite lors de l'envoi : " + reponse.statusText;
-            messageStatut.style.color = "#e74c3c"; // Couleur rouge
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page de Sélection</title>
+    <style>
+        /* --- Style global de la page --- */
+        body {
+            background-color: #050505; /* Fond noir */
+            color: #ffffff; /* Texte en blanc */
+            font-family: Arial, sans-serif;
+            display: flex; /* Pour aligner les deux cadres côte à côte */
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            gap: 50px; /* L'espace qui sépare les deux cadrages */
         }
+
+        /* --- Style des cadrages (les deux grandes boîtes) --- */
+        .cadrage {
+            background-color: #1a1a1a; /* Un noir légèrement plus clair pour qu'on voie le cadre */
+            border: 3px solid transparent; /* Bordure invisible par défaut */
+            border-radius: 25px; /* Le carré avec des rondeurs pour le cadre */
+            padding: 30px;
+            width: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: all 0.4s ease; /* Animation fluide */
+        }
+
+        /* --- Style des images --- */
+        .cadrage img {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border: 3px solid transparent; /* Bordure invisible par défaut */
+            border-radius: 20px; /* Le carré avec des rondeurs pour l'image */
+            margin-bottom: 15px;
+            transition: all 0.4s ease;
+        }
+
+        /* --- Style du sous-titre --- */
+        .sous-titre {
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+            font-weight: bold;
+        }
+
+        /* --- Style des boutons --- */
+        .cadrage a.bouton {
+            display: inline-block;
+            background-color: transparent;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: bold;
+            padding: 15px 30px;
+            border: 3px solid #555555; /* Bordure grise par défaut */
+            border-radius: 15px; /* Le carré avec des rondeurs pour le bouton */
+            transition: all 0.3s ease; /* Animation fluide */
+        }
+
+        /* =====================================================================
+           EFFETS DE SURVOL (HOVER) AU CURSEUR
+           ===================================================================== */
+
+        /* 1. Quand on pointe UNIQUEMENT sur le bouton */
+        .cadrage a.bouton:hover {
+            transform: scale(1.15); /* Le bouton grossit bien */
+            border-color: #00ff00; /* Contour du bouton en vert */
+            /* Effet "brouillé" / lumineux autour du bouton */
+            box-shadow: 0 0 20px 5px rgba(0, 255, 0, 0.6); 
+            background-color: rgba(0, 255, 0, 0.1);
+        }
+
+        /* 2. Quand on pointe sur TOUT LE CADRAGE */
+        .cadrage:hover {
+            border-color: #00ff00; /* Le cadrage se met en vert */
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
+        }
+
+        /* Quand on pointe sur le cadrage, l'image prend aussi le contour vert */
+        .cadrage:hover img {
+            border-color: #00ff00;
+        }
+
+        /* Quand on pointe sur le cadrage, le bouton prend aussi le contour vert 
+           (même si on n'est pas directement sur le bouton) */
+        .cadrage:hover a.bouton {
+            border-color: #00ff00;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cadrage">
+        <img src="" alt="Image descriptive 1">
         
-    } catch (erreur) {
-        // Si ta connexion coupe ou si l'URL est cassée
-        messageStatut.innerText = "❌ Impossible de contacter Discord : " + erreur.message;
-        messageStatut.style.color = "#e74c3c";
-    }
-});
+        <div class="sous-titre">Sous-titre du premier choix</div>
+        
+        <a href="" class="bouton">Aller sur le site 1</a>
+    </div>
+
+    <div class="cadrage">
+        <img src="" alt="Image descriptive 2">
+        
+        <div class="sous-titre">Sous-titre du deuxième choix</div>
+        
+        <a href="" class="bouton">Aller sur le site 2</a>
+    </div>
+
+</body>
+</html>
 .
