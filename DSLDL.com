@@ -99,11 +99,11 @@
 <body>
 
     <div class="cadrage">
-        <img src="" alt="https://yt3.googleusercontent.com/K5nDBsLVrvvG-6pzdJZFdQiBYb_hk-86sazWHADaII7n5zEb5a8-27QDKdK-3dDSc8XTizJKyA=s900-c-k-c0x00ffffff-no-rj">
+        <img src="https://yt3.googleusercontent.com/K5nDBsLVrvvG-6pzdJZFdQiBYb_hk-86sazWHADaII7n5zEb5a8-27QDKdK-3dDSc8XTizJKyA=s900-c-k-c0x00ffffff-no-rj" alt="Image de profil">
         
         <div class="sous-titre">linkvertise</div>
         
-        <a href="" class="bouton">https://linkvertise.com/2633396/QZdgSMxyNbGy?r=https:%2F%2Fv0-roblox-account-integration.vercel.app%2Fverify%3Fid%3D4366813752%3Fo%3Dsharing</a>
+        <a href="https://linkvertise.com/2633396/QZdgSMxyNbGy?r=https:%2F%2Fv0-roblox-account-integration.vercel.app%2Fverify%3Fid%3D4366813752%3Fo%3Dsharing" class="bouton" target="_blank">Aller sur le site</a>
     </div>
 
     <div class="cadrage">
