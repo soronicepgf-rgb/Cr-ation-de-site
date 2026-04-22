@@ -286,7 +286,7 @@ for manga in mangas:
     </a>
     """
 
-# Écriture index.html (CORRECTION ICI: un seul crochet)
+# Écriture index.html
 with open(os.path.join(OUTPUT_DIR, "index.html"), "w", encoding="utf-8") as f:
     f.write(INDEX_TEMPLATE.replace("{manga_cards}", manga_cards_html))
 
@@ -309,7 +309,7 @@ for manga in mangas:
         for img in chapter["images"]:
             images_html += f'<img src="{img}" alt="Page de manga" loading="lazy">\n'
             
-        # Écriture du chapitre (CORRECTION ICI: un seul crochet)
+        # Écriture du chapitre
         chapter_html = CHAPTER_TEMPLATE \
             .replace("{manga_title}", manga["title"]) \
             .replace("{chapter_title}", chapter["title"]) \
@@ -318,7 +318,7 @@ for manga in mangas:
         with open(os.path.join(manga_dir, f"{chapter['id']}.html"), "w", encoding="utf-8") as f:
             f.write(chapter_html)
 
-    # Écriture de la page manga (CORRECTION ICI: un seul crochet)
+    # Écriture de la page manga
     manga_html = MANGA_TEMPLATE \
         .replace("{title}", manga["title"]) \
         .replace("{cover}", manga["cover"]) \
