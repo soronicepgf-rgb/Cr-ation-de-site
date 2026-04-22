@@ -1,4 +1,4 @@
-1. Python /
+1. PYTHON /
 import os
 import shutil
 
