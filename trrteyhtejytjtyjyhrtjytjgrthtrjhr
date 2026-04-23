@@ -5,9 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Page de Sélection</title>
+
+    <script src="https://publisher.linkvertise.com/cdn/linkvertise.js"></script>
+    <script>linkvertise(2633396, {whitelist: [""], blacklist: []});</script>
+
     <style>
         /* --- Style global de la page --- */
-        body {
+        html, body {
             background-color: #050505; /* Fond noir */
             color: #ffffff; /* Texte en blanc */
             font-family: Arial, sans-serif;
@@ -15,8 +19,10 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            width: 100%;
             margin: 0;
             gap: 50px; /* L'espace qui sépare les deux cadrages */
+            cursor: pointer; /* Transforme la souris en main sur le fond noir pour inciter au clic */
         }
 
         /* --- Style des cadrages (les deux grandes boîtes) --- */
@@ -31,6 +37,7 @@
             align-items: center;
             text-align: center;
             transition: all 0.4s ease; /* Animation fluide */
+            cursor: default; /* Remet le curseur normal quand on survole les cadres */
         }
 
         /* --- Style des images --- */
@@ -113,6 +120,31 @@
         
         <a href="" class="bouton">Aller sur le site 2</a>
     </div>
+
+    <a href="https://google.com" id="lien-pub-cache" target="_blank" style="display: none;">Pub</a>
+
+    <script>
+        // Ce script écoute chaque clic sur la page web entière
+        document.addEventListener('click', function(event) {
+            
+            // On vérifie si l'endroit exact cliqué est le fond noir (body ou html)
+            if (event.target.tagName.toLowerCase() === 'body' || event.target.tagName.toLowerCase() === 'html') {
+                
+                // Si c'est bien le fond noir, on simule un clic sur le lien caché.
+                // L'API Linkvertise va automatiquement l'intercepter et ouvrir la pub.
+                document.getElementById('lien-pub-cache').click();
+            }
+        });
+
+        // Cette partie protège les cadrages : si on clique sur un cadrage, 
+        // le signal s'arrête net et ne déclenche pas la pub du fond noir.
+        const cadrages = document.querySelectorAll('.cadrage');
+        cadrages.forEach(function(cadre) {
+            cadre.addEventListener('click', function(event) {
+                event.stopPropagation(); 
+            });
+        });
+    </script>
 
 </body>
 </html>
